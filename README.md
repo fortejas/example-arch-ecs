@@ -1,4 +1,13 @@
-# Sample - Single Load Balancer routing to Mulitple ECS Services
+# Sample - Containers - ECS Single ALB
+
+This demo starts by deploying a copilot application.
+
+## Getting Started - Deploy CDK
+
+```bash
+$ cd infra
+$ cdk deploy
+```
 
 
 ## CoPilot - Adding Parameters to SSM
