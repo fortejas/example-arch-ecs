@@ -5,15 +5,15 @@ from flask import (
     request
 )
 
-SERVICE_NAME = os.environ.get('SERVICE_NAME', 'default')
 VERSION = '0.0.1'
+SERVICE_NAME = os.environ.get('SERVICE_NAME', 'default')
 SECRET_VAR = os.environ.get('SECRET_VAR', 'not-specified')
+APP_ROOT = os.environ.get('APP_ROOT', '/')
 
 
 APP = Flask(__name__)
 
-
-@APP.route('/')
+@APP.route(f'{APP_ROOT}')
 def home():
     return jsonify(**{
         'service_name': SERVICE_NAME,
@@ -25,7 +25,7 @@ def home():
     })
 
 
-@APP.route('/healthz')
+@APP.route(f'/healthz')
 def health():
     return jsonify(**{'status': 'healthy'})
 

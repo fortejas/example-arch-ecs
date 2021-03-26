@@ -36,7 +36,8 @@ export class InfraStack extends cdk.Stack {
     const container = taskDef.addContainer('main', {
       image: ContainerImage.fromEcrRepository(repo, 'latest'),
       environment: {
-        SERVICE_NAME: `${name}`
+        SERVICE_NAME: `${name}`,
+        APP_ROOT: `/${name}`
       },
     })
 
@@ -45,7 +46,8 @@ export class InfraStack extends cdk.Stack {
     const service = new FargateService(this, `FargateService_${name}`, {
       cluster,
       serviceName: `${name}`,
-      taskDefinition: taskDef
+      taskDefinition: taskDef,
+      desiredCount: 1
     })
 
     listener.addTargets(`FargateServiceTarget_${name}`, {
@@ -54,7 +56,8 @@ export class InfraStack extends cdk.Stack {
       ],
       targets: [service],
       protocol: ApplicationProtocol.HTTP,
-      priority: priority
+      priority: priority,
+      healthCheck: { path: '/healthz' }
     })
   }
 }
